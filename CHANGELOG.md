@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Document classification with confidence scoring
 - Data extraction from documents with field-specific extraction
 - Document verification (synchronous and asynchronous)
-- Document matching and comparison
+- String search within documents with similarity matching (updated from document comparison)
 - AI-powered natural language document querying
 - Document validation with custom validation types
 - Comprehensive job management for async operations:

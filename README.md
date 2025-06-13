@@ -11,7 +11,7 @@ The official Ruby client for the [Truedocs API](https://truedocs.mx) - AI-powere
 - 🔍 **Document Classification** - Automatically identify document types
 - 📄 **Data Extraction** - Extract structured data from documents using AI
 - ✅ **Document Verification** - Verify document authenticity with official sources
-- 🔍 **Document Matching** - Compare and match documents intelligently
+- 🔍 **Document Matching** - Search for strings within documents with similarity matching
 - 💬 **AI-Powered Queries** - Ask natural language questions about documents
 - ⚡ **Async Processing** - Handle long-running operations with job polling
 - 🛡️ **Built-in Error Handling** - Comprehensive error types and handling
@@ -173,15 +173,34 @@ puts "Progress: #{status.progress}"   # Progress percentage
 
 ### Document Matching
 
-Compare two documents for similarity:
+Search for a string within a document with similarity matching:
 
 ```ruby
-result = client.match_documents('path/to/doc1.pdf', 'path/to/doc2.pdf')
+# Basic string search
+result = client.match_document('path/to/document.pdf', 'VIAJERO')
 
-puts result.match_score      # Similarity score (0-1)
-puts result.matches?         # true if match_score > 0.5
-puts result.matched_fields   # Array of matching fields
-puts result.differences      # Array of differences found
+puts result.confidence          # Overall confidence score
+puts result.has_matches?        # true if any matches found
+puts result.matches.length      # Number of matches found
+puts result.top_match          # Best matching result
+
+# Advanced search with threshold and top_k parameters
+result = client.match_document(
+  'path/to/document.pdf',
+  'VIAJERO',
+  threshold: 80,    # Similarity threshold (0-100)
+  top_k: 5          # Maximum number of results to return
+)
+
+# Access individual matches
+result.matches.each do |match|
+  puts match[:line]        # The matched line of text
+  puts match[:similarity]  # Similarity score (0-100)
+end
+
+puts result.lines              # Array of all matched lines
+puts result.similarities       # Array of all similarity scores
+puts result.average_similarity # Average similarity of all matches
 ```
 
 ### Document Querying

@@ -50,11 +50,16 @@ module Truedocs
         end
       end
 
-      def match_documents(file1, file2, **options)
+      def match_document(file, identifier, threshold: nil, top_k: nil, **options)
+        file_data = prepare_file(file)
+
         payload = {
-          document1: prepare_file(file1),
-          document2: prepare_file(file2)
+          document: file_data,
+          identifier: identifier
         }
+
+        payload[:threshold] = threshold if threshold
+        payload[:top_k] = top_k if top_k
 
         response = perform_request(:post, "/match", payload: payload, **options)
         Responses::MatchResponse.new(response)

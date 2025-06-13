@@ -42,8 +42,8 @@ begin
   puts
 
   # Example 5: Document Matching
-  puts "5. Document Matching"
-  puts "   client.match_documents('path/to/doc1.pdf', 'path/to/doc2.pdf')"
+  puts "5. Document Matching (String Search)"
+  puts "   client.match_document('path/to/document.pdf', 'identifier', threshold: 80, top_k: 5)"
   puts
 
   # Example 6: Document Query
