@@ -63,7 +63,7 @@ module Truedocs
 
     def default_headers
       {
-        "X-API-Version" => config.api_version,
+        "X-API-Version" => config.api_version || "2",
         "X-API-Key" => config.api_key,
         "Accept" => "application/json",
         "User-Agent" => "truedocs-ruby/#{Truedocs::VERSION} (Ruby #{RUBY_VERSION})"
@@ -86,7 +86,12 @@ module Truedocs
     def handle_response(response)
       case response.status
       when 200..299
-        response.body
+        # Handle V2 format responses
+        if response.body.is_a?(Hash) && response.body.key?("data")
+          response.body["data"]
+        else
+          response.body
+        end
       when 401
         raise AuthenticationError, "Invalid API key"
       when 403
