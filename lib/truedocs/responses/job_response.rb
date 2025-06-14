@@ -65,6 +65,12 @@ module Truedocs
       def failed?
         status == "FAILED"
       end
+
+      def success?
+        # For job responses, success means the job was created successfully
+        # (has a job_id and is not in a failed state)
+        !job_id.nil? && !job_id.to_s.empty? && !failed?
+      end
     end
   end
 end
