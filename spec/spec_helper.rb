@@ -29,7 +29,7 @@ VCR.configure do |config|
   config.filter_sensitive_data("<API_KEY>") { ENV["TRUEDOCS_API_KEY"] }
   config.default_cassette_options = {
     record: ENV["VCR_RECORD_MODE"]&.to_sym || :once,
-    match_requests_on: %i[method uri body]
+    match_requests_on: %i[method uri]
   }
   
   # Allow real HTTP connections when recording
