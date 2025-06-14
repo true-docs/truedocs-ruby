@@ -52,7 +52,7 @@ RSpec.describe "Real API Recording with VCR", :vcr do
     it "records real API response for document matching" do
       response = client.match_document(
         test_document_path,
-        "INE",
+        "GÓMEZ",
         threshold: 70,
         top_k: 3
       )
