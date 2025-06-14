@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-06-13
+
+### Fixed
+- **V2 API Compatibility**: Fixed success detection for V2 API responses
+  - V2 API does not return a `success` key, now checks `status` field instead
+  - Updated `BaseResponse#success?` to check for `status == "success"` or absence of error
+  - Added custom success logic for `JobResponse` (success means job created with valid job_id and not failed)
+- **Response Key Handling**: Fixed nested hash key transformation in response classes
+  - V2 API returns nested hashes with string keys, now properly transformed to symbols
+  - Affects `prediction`, `fields`, `validation`, `verifications`, and `answers` objects
+  - Ensures consistent access patterns across all response classes
+- **Constant References**: Fixed NameError in resource modules
+  - Updated to use fully qualified constant names for `DOCUMENT_TYPES` and `VALIDATION_TYPES`
+  - Prevents scope-related errors when constants are not directly accessible
+- **Test Compatibility**: Updated tests to match V2 API format and current defaults
+  - Fixed configuration tests for API version "2" and timeout 60 seconds
+  - Updated response tests to use symbol keys for transformed data structures
+
+### Added
+- **Comprehensive V2 API Tests**: Added extensive integration test coverage
+  - V2 response format parsing tests for all endpoints
+  - Mock integration tests with WebMock stubs for offline testing
+  - Live API compatibility tests (require API key)
+  - Verification of V2 format handling and legacy method removal
+
+### Technical Details
+- All 139 tests now passing with 86.28% code coverage
+- Maintains backward compatibility while fixing V2 API issues
+- Improved error handling and response parsing reliability
+
 ## [0.2.0] - 2025-06-13
 
 ### Changed
