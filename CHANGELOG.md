@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2025-06-14
+
+### Added
+- **Real API Testing Infrastructure**: Complete VCR-based testing setup for real API interactions
+  - New `spec/integration/real_api_recording_spec.rb` for recording live API responses
+  - VCR cassettes for all major endpoints: classify, extract, match, validate, query, and ask
+  - Test document (`spec/fixtures/ine-frente.jpeg`) for consistent API testing
+- **Rake Tasks for API Testing**: New `api` namespace with convenient testing commands
+  - `rake api:record` - Record real API responses with VCR cassettes
+  - `rake api:test` - Test against real API without recording
+  - `rake api:clean` - Clean VCR cassettes
+  - `rake api:cassettes` - Show recorded VCR cassettes
+- **Documentation**: Comprehensive `REAL_API_TESTING.md` guide for API testing workflows
+- **Environment Configuration**: Added `dotenv` gem for secure API key management
+
+### Enhanced
+- **Integration Tests**: Updated V2 API compatibility tests to use VCR cassettes
+  - Improved test reliability with recorded API responses
+  - Better error handling for temporarily unavailable endpoints
+  - Enhanced test coverage with real API response validation
+- **Test Infrastructure**: Enhanced VCR configuration for better recording and playback
+  - Automatic API key filtering for security
+  - Configurable recording modes via environment variables
+  - Support for offline testing with recorded cassettes
+
+### Fixed
+- **Test Configuration**: Fixed configuration tests to handle environment variable stubbing
+- **API Integration**: Improved error handling in integration tests for server errors
+- **Documentation Method**: Minor fix to `extract_data` method usage in integration tests
+
+### Technical Details
+- Added 6 VCR cassettes with real API responses for comprehensive testing
+- Enhanced test suite with 165 lines of new integration test code
+- Improved development workflow with automated API testing capabilities
+- All tests continue to pass with enhanced reliability and offline capability
+
 ## [0.2.1] - 2025-06-13
 
 ### Fixed

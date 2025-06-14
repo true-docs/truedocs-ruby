@@ -76,10 +76,10 @@ module Truedocs
         Responses::QueryResponse.new(response)
       end
 
-      def ask_document(file, question, **options)
+      def ask_document(file, query, **options)
         payload = {
           document: prepare_file(file),
-          question: question
+          query: query
         }
 
         response = perform_request(:post, "/ask", payload: payload, **options)

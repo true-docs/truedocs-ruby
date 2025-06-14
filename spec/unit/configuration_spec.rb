@@ -5,12 +5,17 @@ RSpec.describe Truedocs::Configuration do
 
   describe "#initialize" do
     it "sets default values" do
-      expect(subject.api_key).to be_nil
-      expect(subject.base_url).to eq("https://api.truedocs.mx")
-      expect(subject.api_version).to eq("2")
-      expect(subject.timeout).to eq(60)
-      expect(subject.retries).to eq(3)
-      expect(subject.logger).to be_a(Logger)
+      # Stub environment variables to ensure clean test
+      allow(ENV).to receive(:fetch).with("TRUEDOCS_API_KEY", nil).and_return(nil)
+      allow(ENV).to receive(:fetch).with("TRUEDOCS_URL", "https://api.truedocs.mx").and_return("https://api.truedocs.mx")
+      
+      config = described_class.new
+      expect(config.api_key).to be_nil
+      expect(config.base_url).to eq("https://api.truedocs.mx")
+      expect(config.api_version).to eq("2")
+      expect(config.timeout).to eq(60)
+      expect(config.retries).to eq(3)
+      expect(config.logger).to be_a(Logger)
     end
 
     context "when environment variables are set" do
