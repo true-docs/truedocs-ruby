@@ -23,12 +23,12 @@ client = Truedocs.new
 ine_image_path = File.join(__dir__, "../spec/fixtures/ine-frente.jpeg")
 
 # Fields we want to extract
-target_fields = ["SECCION", "CURP"]
+target_fields = %w[SECCION CURP]
 
 begin
   puts "=== INE Field Extraction Example ==="
   puts "Image: #{File.basename(ine_image_path)}"
-  puts "Target fields: #{target_fields.join(', ')}"
+  puts "Target fields: #{target_fields.join(", ")}"
   puts "=" * 50
   puts
 
@@ -46,7 +46,6 @@ begin
   # Extract data from the INE document
   # We can specify the fields we want to extract
   response = client.extract_data(ine_image_path, fields: target_fields)
-  puts response.inspect
 
   puts "✅ Extraction completed successfully!"
   puts "=" * 50
@@ -59,20 +58,41 @@ begin
   target_fields.each do |field|
     field_key = field.downcase.to_sym
     value = response.fields[field_key] || response.fields[field.to_sym] || "Not found"
-    
+
     puts "#{field.ljust(10)}: #{value}"
   end
 
   puts
   puts "=" * 50
 
+  # Use query to get the full name of the ID owner
+  puts "🔍 QUERYING FOR FULL NAME:"
+  puts "-" * 30
+
+  query_response = client.query_document(ine_image_path, "What is the full name of the person on this ID?")
+
+  puts "Query Result: #{query_response.first_answer || query_response.answer || "Not found"}"
+
+  # Use ask to get the full name using AI
+  puts
+  puts "🤖 ASKING AI FOR FULL NAME:"
+  puts "-" * 30
+
+  ask_response = client.ask_document(
+    ine_image_path,
+    "Cuál es el nombre completo de la persona en este documento? " \
+    "Sólo responde con el nombre completo, no con ninguna otra información."
+  )
+  puts "AI Answer   : #{ask_response.response&.strip || "Not found"}"
+
   # Display all available fields if you want to see what else was extracted
   puts "📊 ALL EXTRACTED FIELDS:"
   puts "-" * 30
-  
+
   if response.fields.any?
     response.fields.each do |key, value|
       next if value.nil? || value.to_s.strip.empty?
+
       puts "#{key.to_s.ljust(15)}: #{value}"
     end
   else
@@ -82,7 +102,6 @@ begin
   puts
   puts "=" * 50
   puts "✨ Example completed successfully!"
-
 rescue Truedocs::AuthenticationError => e
   puts "❌ Authentication Error: #{e.message}"
   puts "Please check your TRUEDOCS_API_KEY environment variable."
@@ -99,5 +118,5 @@ rescue Truedocs::Error => e
 rescue StandardError => e
   puts "❌ Unexpected Error: #{e.message}"
   puts "Backtrace:"
-  puts e.backtrace.first(5).map { |line| "  #{line}" }
+  puts(e.backtrace.first(5).map { |line| "  #{line}" })
 end
