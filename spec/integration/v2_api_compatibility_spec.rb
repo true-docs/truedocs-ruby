@@ -15,10 +15,8 @@ RSpec.describe "V2 API Compatibility Integration", :integration do
   end
 
   let(:test_document_path) do
-    # You can place a test document in spec/fixtures/
-    fixture_path = File.join(__dir__, "..", "fixtures", "test_document.pdf")
-    skip "Test document not found at #{fixture_path}" unless File.exist?(fixture_path)
-    fixture_path
+    # Use the INE front image for testing
+    File.join(__dir__, "..", "fixtures", "ine-frente.jpeg")
   end
 
   describe "Document Classification" do
