@@ -2,6 +2,7 @@
 
 require "marcel"
 require "stringio"
+require "pathname"
 
 module Truedocs
   module Utils
