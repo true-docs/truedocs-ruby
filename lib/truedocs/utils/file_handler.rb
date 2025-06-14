@@ -2,9 +2,24 @@
 
 require "marcel"
 require "stringio"
+require "pathname"
 
 module Truedocs
   module Utils
+    # Handles file operations and validations for document processing.
+    # This class is responsible for:
+    # - Validating file existence, size, and type
+    # - Preparing files for API submission
+    # - Converting different file input types (String paths, File objects, IO streams)
+    # - Enforcing size limits and supported file types
+    #
+    # @example
+    #   handler = Truedocs::Utils::FileHandler.new("path/to/document.pdf")
+    #   prepared_file = handler.prepare
+    #
+    # @example
+    #   handler = Truedocs::Utils::FileHandler.new(File.open("document.pdf"))
+    #   prepared_file = handler.prepare
     class FileHandler
       MAX_FILE_SIZE = 10 * 1024 * 1024 # 10MB
       SUPPORTED_TYPES = %w[
