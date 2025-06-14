@@ -54,13 +54,13 @@ RSpec.describe Truedocs::Responses::VerificationResponse do
     it "handles snake_case keys" do
       snake_case_data = {
         success: true,
-        verifications: { 
+        verifications: {
           found: { issuer: "Test Issuer" },
           not_found: [],
           messages: []
         }
       }
-      
+
       response = described_class.new(snake_case_data)
       expect(response.found[:issuer]).to eq("Test Issuer")
     end
@@ -72,7 +72,7 @@ RSpec.describe Truedocs::Responses::VerificationResponse do
         success: true,
         verifications: {
           found: {},
-          notFound: ["documentNumber", "issuer"],
+          notFound: %w[documentNumber issuer],
           messages: ["Document could not be verified", "Missing required fields"]
         }
       }
@@ -88,7 +88,7 @@ RSpec.describe Truedocs::Responses::VerificationResponse do
       not_found = subject.not_found
       expect(not_found).to include("documentNumber")
       expect(not_found).to include("issuer")
-      
+
       messages = subject.messages
       expect(messages).to include("Document could not be verified")
     end
@@ -139,4 +139,4 @@ RSpec.describe Truedocs::Responses::VerificationResponse do
       let(:response) { subject }
     end
   end
-end 
+end

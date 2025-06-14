@@ -31,7 +31,7 @@ VCR.configure do |config|
     record: ENV["VCR_RECORD_MODE"]&.to_sym || :once,
     match_requests_on: %i[method uri]
   }
-  
+
   # Allow real HTTP connections when recording
   config.allow_http_connections_when_no_cassette = true if ENV["VCR_RECORD_MODE"] == "new_episodes"
 end
@@ -57,5 +57,5 @@ RSpec.configure do |config|
   end
 
   # Load support files
-  Dir[File.expand_path("support/**/*.rb", __dir__)].each { |f| require f }
+  Dir[File.expand_path("support/**/*.rb", __dir__)].sort.each { |f| require f }
 end

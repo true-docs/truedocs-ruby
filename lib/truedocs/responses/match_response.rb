@@ -39,6 +39,7 @@ module Truedocs
       def average_similarity
         similarities_array = similarities.compact
         return 0.0 if similarities_array.empty?
+
         similarities_array.sum.to_f / similarities_array.length
       end
 

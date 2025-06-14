@@ -39,7 +39,7 @@ RSpec.describe Truedocs::Responses::MatchResponse do
     end
 
     it "returns lines array" do
-      expect(subject.lines).to eq(["VIAJERO", "FRONTERA", "JORGE"])
+      expect(subject.lines).to eq(%w[VIAJERO FRONTERA JORGE])
     end
 
     it "returns similarities array" do

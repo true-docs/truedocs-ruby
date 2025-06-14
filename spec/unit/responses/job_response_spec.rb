@@ -60,7 +60,7 @@ RSpec.describe Truedocs::Responses::JobResponse do
         job_id: "job_987654321",
         created_at: "2024-01-15T10:30:00Z"
       }
-      
+
       response = described_class.new(snake_case_data)
       expect(response.job_id).to eq("job_987654321")
       expect(response.created_at).to be_a(Time)
@@ -181,4 +181,4 @@ RSpec.describe Truedocs::Responses::JobResponse do
       let(:response) { subject }
     end
   end
-end 
+end

@@ -56,7 +56,7 @@ RSpec.describe Truedocs::Responses::ClassificationResponse do
           entity_short_name: "INE"
         }
       }
-      
+
       response = described_class.new(snake_case_data)
       expect(response.document_type).to eq("ine_reverso")
       expect(response.entity_short_name).to eq("INE")
@@ -105,4 +105,4 @@ RSpec.describe Truedocs::Responses::ClassificationResponse do
       let(:response) { subject }
     end
   end
-end 
+end

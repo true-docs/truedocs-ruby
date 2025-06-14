@@ -38,9 +38,9 @@ RSpec.describe "Document Match Resource" do
         stub_request(:post, "https://api.truedocs.mx/match")
           .with(
             body: hash_including({
-              document: "prepared_file_data",
-              identifier: identifier
-            })
+                                   document: "prepared_file_data",
+                                   identifier: identifier
+                                 })
           )
           .to_return(
             status: 200,
@@ -66,7 +66,7 @@ RSpec.describe "Document Match Resource" do
         expect(top_match[:line]).to eq("VIAJERO")
         expect(top_match[:similarity]).to eq(90)
 
-        expect(result.lines).to eq(["VIAJERO", "FRONTERA", "JORGE"])
+        expect(result.lines).to eq(%w[VIAJERO FRONTERA JORGE])
         expect(result.similarities).to eq([90, 90, 90])
         expect(result.average_similarity).to eq(90.0)
       end
@@ -77,11 +77,11 @@ RSpec.describe "Document Match Resource" do
         stub_request(:post, "https://api.truedocs.mx/match")
           .with(
             body: hash_including({
-              document: "prepared_file_data",
-              identifier: identifier,
-              threshold: 80,
-              top_k: 5
-            })
+                                   document: "prepared_file_data",
+                                   identifier: identifier,
+                                   threshold: 80,
+                                   top_k: 5
+                                 })
           )
           .to_return(
             status: 200,
@@ -111,9 +111,9 @@ RSpec.describe "Document Match Resource" do
         stub_request(:post, "https://api.truedocs.mx/match")
           .with(
             body: hash_including({
-              document: "prepared_file_data",
-              identifier: identifier
-            })
+                                   document: "prepared_file_data",
+                                   identifier: identifier
+                                 })
           )
           .to_return(
             status: 200,

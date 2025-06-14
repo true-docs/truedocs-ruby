@@ -44,7 +44,8 @@ module Truedocs
       def validate_validation_type!(validation_type)
         return if Truedocs::Client::VALIDATION_TYPES.values.include?(validation_type)
 
-        raise ValidationError, "Invalid validation type. Must be one of: #{Truedocs::Client::VALIDATION_TYPES.values.join(", ")}"
+        raise ValidationError,
+              "Invalid validation type. Must be one of: #{Truedocs::Client::VALIDATION_TYPES.values.join(", ")}"
       end
     end
   end

@@ -217,7 +217,7 @@ RSpec.describe "V2 API Mock Integration Test" do
       expect(response).to be_a(Truedocs::Responses::QueryResponse)
       expect(response.success?).to be true
       expect(response.answers).to have_key(:"What type of document is this?")
-      
+
       results = response.results_for("What type of document is this?")
       expect(results.first["text"]).to eq("This is a passport document")
 
@@ -294,4 +294,4 @@ RSpec.describe "V2 API Mock Integration Test" do
         .with(headers: { "X-API-Version" => "2" })
     end
   end
-end 
+end

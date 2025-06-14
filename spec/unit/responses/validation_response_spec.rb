@@ -47,12 +47,12 @@ RSpec.describe Truedocs::Responses::ValidationResponse do
     it "handles snake_case keys" do
       snake_case_data = {
         success: true,
-        validation: { 
+        validation: {
           type: "test",
           isValid: true
         }
       }
-      
+
       response = described_class.new(snake_case_data)
       expect(response.validation_type).to eq("test")
       expect(response.is_valid).to be true
@@ -131,4 +131,4 @@ RSpec.describe Truedocs::Responses::ValidationResponse do
       let(:response) { subject }
     end
   end
-end 
+end

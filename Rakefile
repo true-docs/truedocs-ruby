@@ -117,10 +117,10 @@ namespace :api do
 
     # Set VCR to record new episodes
     ENV["VCR_RECORD_MODE"] = "new_episodes"
-    
+
     # Run only the real API recording spec
     sh "bundle exec rspec spec/integration/real_api_recording_spec.rb --format documentation"
-    
+
     puts
     puts "✅ VCR cassettes recorded!"
     puts "Check spec/fixtures/vcr_cassettes/real_api/ for the recorded responses"

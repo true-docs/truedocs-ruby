@@ -229,7 +229,7 @@ RSpec.describe "V2 Response Format Integration Test" do
           }
         }
       )
-      
+
       allow(client.instance_variable_get(:@connection)).to receive(:post).and_return(mock_response)
 
       # Test that the client correctly extracts the data portion
@@ -242,4 +242,4 @@ RSpec.describe "V2 Response Format Integration Test" do
       expect(connection.headers["X-API-Version"]).to eq("2")
     end
   end
-end 
+end

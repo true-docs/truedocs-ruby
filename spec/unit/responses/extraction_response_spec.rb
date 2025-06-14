@@ -95,4 +95,4 @@ RSpec.describe Truedocs::Responses::ExtractionResponse do
       let(:response) { subject }
     end
   end
-end 
+end

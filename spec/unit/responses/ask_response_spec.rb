@@ -52,4 +52,4 @@ RSpec.describe Truedocs::Responses::AskResponse do
       let(:response) { subject }
     end
   end
-end 
+end

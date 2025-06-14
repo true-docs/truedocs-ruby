@@ -95,7 +95,8 @@ module Truedocs
       def validate_document_type!(document_type)
         return if Truedocs::Client::DOCUMENT_TYPES.values.include?(document_type)
 
-        raise ValidationError, "Invalid document type. Must be one of: #{Truedocs::Client::DOCUMENT_TYPES.values.join(", ")}"
+        raise ValidationError,
+              "Invalid document type. Must be one of: #{Truedocs::Client::DOCUMENT_TYPES.values.join(", ")}"
       end
     end
   end

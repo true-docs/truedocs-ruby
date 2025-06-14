@@ -8,7 +8,7 @@ RSpec.describe Truedocs::Configuration do
       # Stub environment variables to ensure clean test
       allow(ENV).to receive(:fetch).with("TRUEDOCS_API_KEY", nil).and_return(nil)
       allow(ENV).to receive(:fetch).with("TRUEDOCS_URL", "https://api.truedocs.mx").and_return("https://api.truedocs.mx")
-      
+
       config = described_class.new
       expect(config.api_key).to be_nil
       expect(config.base_url).to eq("https://api.truedocs.mx")
