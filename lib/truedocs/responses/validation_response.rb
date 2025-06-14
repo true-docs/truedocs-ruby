@@ -6,7 +6,9 @@ module Truedocs
   module Responses
     class ValidationResponse < BaseResponse
       def validation
-        raw_data[:validation] || {}
+        validation_data = raw_data[:validation] || {}
+        # Ensure we can access both string and symbol keys
+        validation_data.is_a?(Hash) ? validation_data.transform_keys(&:to_sym) : validation_data
       end
 
       def validation_type

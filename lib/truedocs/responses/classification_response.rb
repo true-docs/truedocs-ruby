@@ -6,7 +6,9 @@ module Truedocs
   module Responses
     class ClassificationResponse < BaseResponse
       def prediction
-        raw_data[:prediction] || {}
+        pred = raw_data[:prediction] || {}
+        # Ensure we can access both string and symbol keys
+        pred.is_a?(Hash) ? pred.transform_keys(&:to_sym) : pred
       end
 
       def document_type
