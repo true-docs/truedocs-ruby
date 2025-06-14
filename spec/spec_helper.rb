@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
+require "dotenv/load"
 require "webmock/rspec"
 require "vcr"
 require "simplecov"
@@ -27,9 +28,12 @@ VCR.configure do |config|
   config.configure_rspec_metadata!
   config.filter_sensitive_data("<API_KEY>") { ENV["TRUEDOCS_API_KEY"] }
   config.default_cassette_options = {
-    record: :once,
+    record: ENV["VCR_RECORD_MODE"]&.to_sym || :once,
     match_requests_on: %i[method uri body]
   }
+  
+  # Allow real HTTP connections when recording
+  config.allow_http_connections_when_no_cassette = true if ENV["VCR_RECORD_MODE"] == "new_episodes"
 end
 
 RSpec.configure do |config|

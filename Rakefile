@@ -106,3 +106,53 @@ task :console do
 
   IRB.start
 end
+
+# Real API testing tasks
+namespace :api do
+  desc "Test against real API and record VCR cassettes"
+  task :record do
+    puts "🎬 Recording real API responses with VCR..."
+    puts "Make sure TRUEDOCS_API_KEY is set in your .env file"
+    puts
+
+    # Set VCR to record new episodes
+    ENV["VCR_RECORD_MODE"] = "new_episodes"
+    
+    # Run only the real API recording spec
+    sh "bundle exec rspec spec/integration/real_api_recording_spec.rb --format documentation"
+    
+    puts
+    puts "✅ VCR cassettes recorded!"
+    puts "Check spec/fixtures/vcr_cassettes/real_api/ for the recorded responses"
+  end
+
+  desc "Test against real API (no recording)"
+  task :test do
+    puts "🧪 Testing against real API..."
+    puts "Make sure TRUEDOCS_API_KEY is set in your .env file"
+    puts
+
+    # Run the existing integration tests
+    sh "bundle exec rspec spec/integration/v2_api_compatibility_spec.rb --format documentation"
+  end
+
+  desc "Clean VCR cassettes"
+  task :clean do
+    puts "🧹 Cleaning VCR cassettes..."
+    sh "rm -rf spec/fixtures/vcr_cassettes/real_api/"
+    puts "✅ VCR cassettes cleaned!"
+  end
+
+  desc "Show VCR cassettes"
+  task :cassettes do
+    puts "📼 VCR Cassettes:"
+    if Dir.exist?("spec/fixtures/vcr_cassettes")
+      Dir.glob("spec/fixtures/vcr_cassettes/**/*.yml").each do |file|
+        size = File.size(file)
+        puts "  #{file} (#{size} bytes)"
+      end
+    else
+      puts "  No cassettes found"
+    end
+  end
+end
