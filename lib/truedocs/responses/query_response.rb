@@ -5,16 +5,21 @@ require_relative "base_response"
 module Truedocs
   module Responses
     class QueryResponse < BaseResponse
-      def answer
-        raw_data[:answer]
+      def answers
+        raw_data[:answers] || {}
       end
 
-      def confidence
-        raw_data[:confidence]
+      def answer_for(question)
+        answers[question] || answers[question.to_s] || answers[question.to_sym]
       end
 
-      def sources
-        raw_data[:sources] || []
+      def first_answer
+        answers.values.first
+      end
+
+      def results_for(question)
+        answer_data = answer_for(question)
+        answer_data ? answer_data[:results] || [] : []
       end
     end
   end

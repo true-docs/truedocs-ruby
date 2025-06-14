@@ -5,20 +5,28 @@ require_relative "base_response"
 module Truedocs
   module Responses
     class ValidationResponse < BaseResponse
-      def validation_result
-        raw_data[:validationResult] || raw_data[:validation_result]
+      def validation
+        raw_data[:validation] || {}
+      end
+
+      def validation_type
+        validation[:type]
+      end
+
+      def match
+        validation[:match]
+      end
+
+      def confidence
+        validation[:confidence]
+      end
+
+      def is_valid
+        validation[:isValid]
       end
 
       def valid?
-        [true, "valid"].include?(validation_result)
-      end
-
-      def validation_details
-        raw_data[:validationDetails] || raw_data[:validation_details] || {}
-      end
-
-      def warnings
-        raw_data[:warnings] || []
+        is_valid == true
       end
     end
   end

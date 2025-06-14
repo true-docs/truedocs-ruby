@@ -44,7 +44,8 @@ module Truedocs
         response = perform_request(:post, "/verify", payload: payload, **options)
 
         if async
-          Responses::JobResponse.new(response.merge(job_id: response["jobId"]))
+          # Handle async response format: {"jobId": "...", "message": "..."}
+          Responses::JobResponse.new(response)
         else
           Responses::VerificationResponse.new(response)
         end

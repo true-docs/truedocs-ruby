@@ -13,6 +13,10 @@ module Truedocs
         raw_data[:status]
       end
 
+      def document_type
+        raw_data[:documentType] || raw_data[:document_type]
+      end
+
       def result
         raw_data[:result]
       end
@@ -21,8 +25,19 @@ module Truedocs
         raw_data[:progress]
       end
 
+      def error
+        raw_data[:error]
+      end
+
       def created_at
         timestamp = raw_data[:createdAt] || raw_data[:created_at]
+        timestamp ? Time.parse(timestamp) : nil
+      rescue ArgumentError
+        nil
+      end
+
+      def updated_at
+        timestamp = raw_data[:updatedAt] || raw_data[:updated_at]
         timestamp ? Time.parse(timestamp) : nil
       rescue ArgumentError
         nil
@@ -36,19 +51,19 @@ module Truedocs
       end
 
       def pending?
-        status == "pending"
+        status == "PENDING"
       end
 
       def in_progress?
-        status == "in_progress"
+        status == "IN_PROGRESS"
       end
 
       def completed?
-        status == "completed"
+        status == "COMPLETED"
       end
 
       def failed?
-        status == "failed"
+        status == "FAILED"
       end
     end
   end

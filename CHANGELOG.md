@@ -5,7 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.0] - 2025-06-13
+
+### Changed
+- **BREAKING**: Updated all response classes to use V2 API format
+- **BREAKING**: Removed all backward compatibility code and legacy methods
+- Updated client to default API version to "2"
+- Updated response parsing to extract data from V2 format: `{"status": "success", "data": {...}}`
+
+### Updated Response Classes
+- **ClassificationResponse**: Now uses `prediction` object with `documentType`, `confidence`, `country`, `entity`, `entityShortName`
+- **ExtractionResponse**: Now uses `lines` array and `fields` object
+- **ValidationResponse**: Now uses `validation` object with `type`, `match`, `confidence`, `isValid`
+- **VerificationResponse**: Now uses `verifications` object with `found`, `notFound`, `messages`
+- **QueryResponse**: Now uses `answers` object with question-result mapping
+- **AskResponse**: Now uses simple `response` field
+- **JobResponse**: Status values now uppercase ("PENDING", "IN_PROGRESS", "COMPLETED", "FAILED")
+
+### Removed
+- All legacy/backward compatibility methods from response classes
+- Deprecated `match_documents` method (replaced with `match_document`)
+- Legacy response methods like `extracted_fields`, `confidence_scores`, `text_blocks`
+- Legacy validation methods like `validation_result`, `validation_details`, `warnings`
+- Legacy verification methods like `verification_result`, `verification_details`, `status`
+- Legacy query methods like `answer`, `confidence`, `sources`
+- Legacy ask methods like `answer`, `confidence`, `context`
+
+### Technical Details
+- All tests updated to use V2 API format
+- Removed deprecation warnings and legacy test cases
+- Improved response class consistency and clarity
+- Better alignment with actual Truedocs API V2 specification
 
 ## [0.1.0] - 2025-06-13
 

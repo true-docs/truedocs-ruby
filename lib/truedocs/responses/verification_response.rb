@@ -5,20 +5,24 @@ require_relative "base_response"
 module Truedocs
   module Responses
     class VerificationResponse < BaseResponse
-      def verification_result
-        raw_data[:verificationResult] || raw_data[:verification_result]
+      def verifications
+        raw_data[:verifications] || {}
+      end
+
+      def found
+        verifications[:found] || {}
+      end
+
+      def not_found
+        verifications[:notFound] || []
+      end
+
+      def messages
+        verifications[:messages] || []
       end
 
       def verified?
-        verification_result == "verified" || raw_data[:verified] == true
-      end
-
-      def verification_details
-        raw_data[:verificationDetails] || raw_data[:verification_details] || {}
-      end
-
-      def status
-        raw_data[:status]
+        !found.empty?
       end
     end
   end
