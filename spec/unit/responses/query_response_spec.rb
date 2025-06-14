@@ -25,7 +25,7 @@ RSpec.describe Truedocs::Responses::QueryResponse do
     it "returns answers object" do
       answers = subject.answers
       expect(answers).to be_a(Hash)
-      expect(answers["When does this document expire?"]).to be_truthy
+      expect(answers[:"When does this document expire?"]).to be_truthy
     end
 
     it "returns answer for specific question" do

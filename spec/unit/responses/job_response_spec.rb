@@ -170,7 +170,7 @@ RSpec.describe Truedocs::Responses::JobResponse do
   end
 
   describe "shared examples" do
-    let(:data) { { success: true, jobId: "test_job", status: "COMPLETED" } }
+    let(:data) { { status: "success", jobId: "test_job", jobStatus: "COMPLETED" } }
     subject { described_class.new(data) }
 
     include_examples "a successful response" do
