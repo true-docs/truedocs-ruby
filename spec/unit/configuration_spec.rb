@@ -5,11 +5,12 @@ RSpec.describe Truedocs::Configuration do
 
   describe "#initialize" do
     it "sets default values" do
+      expect(subject.api_key).to be_nil
       expect(subject.base_url).to eq("https://api.truedocs.mx")
-      expect(subject.api_version).to eq("1")
+      expect(subject.api_version).to eq("2")
       expect(subject.timeout).to eq(60)
       expect(subject.retries).to eq(3)
-      expect(subject.adapter).to eq(:net_http)
+      expect(subject.logger).to be_a(Logger)
     end
 
     context "when environment variables are set" do
