@@ -9,7 +9,7 @@ module Truedocs
     def initialize
       @api_key = ENV.fetch("TRUEDOCS_API_KEY", nil)
       @base_url = ENV.fetch("TRUEDOCS_URL", "https://api.truedocs.mx")
-      @api_version = "1"
+      @api_version = "2"
       @timeout = 60
       @retries = 3
       @logger = Logger.new($stdout, level: Logger::WARN)
