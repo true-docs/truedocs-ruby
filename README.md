@@ -1,9 +1,5 @@
 # Truedocs Ruby Gem
 
-[![Gem Version](https://badge.fury.io/rb/truedocs.svg)](https://badge.fury.io/rb/truedocs)
-[![Build Status](https://github.com/true-docs/truedocs-ruby/workflows/CI/badge.svg)](https://github.com/true-docs/truedocs-ruby/actions)
-[![Coverage Status](https://coveralls.io/repos/github/true-docs/truedocs-ruby/badge.svg)](https://coveralls.io/github/true-docs/truedocs-ruby)
-
 The official Ruby client for the [Truedocs API](https://truedocs.mx) - AI-powered document processing, verification, and analysis services.
 
 ## Features
