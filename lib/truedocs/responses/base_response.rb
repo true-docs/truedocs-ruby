@@ -10,7 +10,13 @@ module Truedocs
       end
 
       def success?
-        raw_data[:success] != false
+        # V2 API format: check status field or absence of error
+        if raw_data.key?(:status)
+          raw_data[:status] == "success"
+        else
+          # Fallback: success if no error present and not explicitly marked as failed
+          !raw_data.key?(:error) && raw_data[:success] != false
+        end
       end
 
       def error?
