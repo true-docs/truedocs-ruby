@@ -91,7 +91,7 @@ puts "Confidence: #{result.confidence}"
 
 # Extract data from document
 extraction = client.extract_data('path/to/document.pdf')
-puts "Extracted fields: #{extraction.extracted_fields}"
+puts "Extracted fields: #{extraction.fields}"
 
 # Verify a document
 verification = client.verify_document('path/to/document.pdf', 'constancia_de_situacion_fiscal')
@@ -110,7 +110,9 @@ result = client.classify_document('path/to/document.pdf')
 # Access results
 puts result.document_type    # e.g., "constancia_de_situacion_fiscal"
 puts result.confidence       # e.g., 0.95
-puts result.predictions      # Array of all predictions
+puts result.prediction       # Full prediction object with details
+puts result.country          # Document country (if available)
+puts result.entity           # Issuing entity (if available)
 ```
 
 ### Data Extraction
@@ -125,9 +127,8 @@ result = client.extract_data('path/to/document.pdf')
 result = client.extract_data('path/to/document.pdf', fields: ['rfc', 'nombre'])
 
 # Access extracted data
-puts result.extracted_fields     # Hash of field => value
-puts result.confidence_scores    # Hash of field => confidence
-puts result.text_blocks         # Raw text blocks detected
+puts result.fields              # Hash of field => value
+puts result.lines               # Array of text lines detected
 ```
 
 ### Document Verification
@@ -138,8 +139,9 @@ puts result.text_blocks         # Raw text blocks detected
 result = client.verify_document('path/to/document.pdf', 'constancia_de_situacion_fiscal')
 
 puts result.verified?               # true/false
-puts result.verification_result     # 'verified' or error message
-puts result.verification_details    # Additional verification info
+puts result.found                   # Hash of verified fields
+puts result.not_found               # Array of fields that couldn't be verified
+puts result.messages                # Array of verification messages
 ```
 
 #### Asynchronous Verification
@@ -159,11 +161,11 @@ puts "Job ID: #{job.job_id}"
 
 # Wait for completion (polling)
 result = client.wait_for_job(job.job_id)
-puts "Final result: #{result.verification_result}"
+puts "Final result: #{result.verified? ? 'verified' : 'not verified'}"
 
 # Or check status manually
 status = client.get_job_status(job.job_id)
-puts "Status: #{status.status}"       # 'pending', 'in_progress', 'completed', 'failed'
+puts "Status: #{status.status}"       # 'PENDING', 'IN_PROGRESS', 'COMPLETED', 'FAILED'
 puts "Progress: #{status.progress}"   # Progress percentage
 ```
 
@@ -206,9 +208,9 @@ Ask natural language questions about documents:
 ```ruby
 result = client.query_document('path/to/document.pdf', 'What is the expiration date?')
 
-puts result.answer           # Natural language answer
-puts result.confidence       # Confidence in the answer
-puts result.sources          # Source information used
+puts result.first_answer     # First answer from the results
+puts result.answers          # Hash of all answers
+puts result.results_for('What is the expiration date?')  # Results for specific question
 ```
 
 ### AI-Powered Document Questions
@@ -218,9 +220,7 @@ Get AI-powered answers about document content:
 ```ruby
 result = client.ask_document('path/to/document.pdf', 'Is this document still valid?')
 
-puts result.answer           # AI-generated answer
-puts result.confidence       # Confidence score
-puts result.context          # Context used for the answer
+puts result.response         # AI-generated response
 ```
 
 ### Document Validation
@@ -231,9 +231,10 @@ Validate documents using specific validation rules:
 result = client.validate_document('path/to/document.pdf', 'DidExpire')
 
 puts result.valid?               # true/false
-puts result.validation_result    # Validation outcome
-puts result.validation_details   # Detailed validation info
-puts result.warnings            # Any warnings found
+puts result.validation_type      # Type of validation performed
+puts result.match                # Validation match result
+puts result.confidence           # Confidence score
+puts result.is_valid             # Boolean validation result
 ```
 
 ### Job Management
@@ -263,10 +264,10 @@ puts job.created_at     # Job creation time
 puts job.completed_at   # Job completion time
 
 # Status check methods
-puts job.pending?       # true if status == 'pending'
-puts job.in_progress?   # true if status == 'in_progress'
-puts job.completed?     # true if status == 'completed'
-puts job.failed?        # true if status == 'failed'
+puts job.pending?       # true if status == 'PENDING'
+puts job.in_progress?   # true if status == 'IN_PROGRESS'
+puts job.completed?     # true if status == 'COMPLETED'
+puts job.failed?        # true if status == 'FAILED'
 ```
 
 ### Feedback
@@ -356,6 +357,12 @@ puts result.to_json        # JSON representation
 # Specific response methods (varies by endpoint)
 puts result.document_type   # Classification-specific
 puts result.confidence      # Available on multiple response types
+puts result.prediction      # Full prediction object (classification)
+puts result.fields          # Extracted fields (extraction)
+puts result.lines           # Text lines (extraction)
+puts result.matches         # Match results (matching)
+puts result.verified?       # Verification status (verification)
+puts result.response        # AI response (ask)
 ```
 
 ## Constants
