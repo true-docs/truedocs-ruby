@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.5] - 2025-06-25
+
+### Changed
+- **BREAKING**: Removed all file type restrictions from FileHandler
+  - Removed `SUPPORTED_TYPES` constant (previously limited to JPEG, PNG, TIFF, PDF)
+  - Removed MIME type validation logic that rejected unsupported file formats
+  - File format support is now fully delegated to the Truedocs service
+- **BREAKING**: Removed all file size restrictions from FileHandler
+  - Removed `MAX_FILE_SIZE` constant (previously 10MB limit)
+  - Removed file size validation logic
+  - File size limits are now delegated to the platform and Truedocs service
+
+### Enhanced
+- **Future-proof Design**: Client now automatically supports any file formats that the Truedocs service adds
+- **Simplified Maintenance**: No need to keep supported file types list in sync with service capabilities
+- **Better Error Handling**: Format and size validation errors now come from the authoritative source (Truedocs API)
+
+### Fixed
+- **Test Cleanup**: Removed unnecessary `File.size` mock from test files
+- **Documentation**: Updated README to reflect delegation of file format and size validation
+
+### Technical Details
+- Retained file existence validation for file paths to catch obvious errors early
+- Maintained all file preparation functionality for different input types
+- Preserved Marcel dependency for MIME type detection during file upload preparation
+- All existing functionality continues to work without breaking changes
+- 147 tests pass with 87.38% coverage
+
 ## [0.2.4] - 2025-06-16
 
 ### Fixed

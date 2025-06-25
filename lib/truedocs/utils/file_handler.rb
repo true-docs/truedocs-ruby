@@ -8,10 +8,10 @@ module Truedocs
   module Utils
     # Handles file operations and validations for document processing.
     # This class is responsible for:
-    # - Validating file existence, size, and type
+    # - Validating file existence
     # - Preparing files for API submission
     # - Converting different file input types (String paths, File objects, IO streams)
-    # - Enforcing size limits and supported file types
+    # - File format and size validation is delegated to the platform and Truedocs service
     #
     # @example
     #   handler = Truedocs::Utils::FileHandler.new("path/to/document.pdf")
@@ -21,14 +21,6 @@ module Truedocs
     #   handler = Truedocs::Utils::FileHandler.new(File.open("document.pdf"))
     #   prepared_file = handler.prepare
     class FileHandler
-      MAX_FILE_SIZE = 10 * 1024 * 1024 # 10MB
-      SUPPORTED_TYPES = %w[
-        image/jpeg
-        image/png
-        image/tiff
-        application/pdf
-      ].freeze
-
       def initialize(file)
         @file = file
       end
@@ -66,27 +58,13 @@ module Truedocs
 
       def validate_file_path(path)
         raise ValidationError, "File does not exist: #{path}" unless File.exist?(path)
-
-        file_size = File.size(path)
-        raise FileTooLargeError, "File too large (#{file_size} bytes)" if file_size > MAX_FILE_SIZE
-
-        mime_type = Marcel::MimeType.for(Pathname.new(path))
-        return if SUPPORTED_TYPES.include?(mime_type)
-
-        raise UnsupportedFileTypeError, "Unsupported file type: #{mime_type}"
       end
 
       def validate_file_object(file)
+        # Basic validation to ensure the file object is readable
         file.rewind if file.respond_to?(:rewind)
-        content = file.read
+        file.read(0) # Test readability without consuming content
         file.rewind if file.respond_to?(:rewind)
-
-        raise FileTooLargeError, "File too large (#{content.size} bytes)" if content.size > MAX_FILE_SIZE
-
-        mime_type = Marcel::MimeType.for(content)
-        return if SUPPORTED_TYPES.include?(mime_type)
-
-        raise UnsupportedFileTypeError, "Unsupported file type: #{mime_type}"
       end
 
       def prepare_file_path(path)
