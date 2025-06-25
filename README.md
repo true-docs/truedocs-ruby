@@ -300,10 +300,11 @@ client.classify_document(file)
 client.classify_document({ document: prepared_data })
 ```
 
-### File Requirements
+### File Handling
 
-- **Maximum size**: 10MB per file
-- **Supported formats**: File format support is determined by the Truedocs service, not the client library
+- **Format support**: File format support is determined by the Truedocs service
+- **Size limits**: File size limits are determined by the platform and Truedocs service
+- **Input types**: Supports file paths (String), File objects, IO streams, and prepared multipart data
 
 ## Error Handling
 
@@ -337,7 +338,6 @@ end
 - `Truedocs::NetworkError` - Network connectivity issues
 - `Truedocs::ServerError` - Server errors (5xx)
 - `Truedocs::UnsupportedFileTypeError` - Unsupported file input type (not file format)
-- `Truedocs::FileTooLargeError` - File exceeds size limit
 
 ## Response Objects
 

@@ -6,7 +6,6 @@ RSpec.describe "Document Match Resource" do
 
   before do
     allow(File).to receive(:exist?).with(file_path).and_return(true)
-    allow(File).to receive(:size).with(file_path).and_return(1024)
     allow_any_instance_of(Truedocs::Utils::FileHandler).to receive(:prepare).and_return("prepared_file_data")
   end
 
