@@ -300,11 +300,10 @@ client.classify_document(file)
 client.classify_document({ document: prepared_data })
 ```
 
-### Supported File Types
+### File Requirements
 
-- **Images**: JPEG, PNG, TIFF
-- **Documents**: PDF
 - **Maximum size**: 10MB per file
+- **Supported formats**: File format support is determined by the Truedocs service, not the client library
 
 ## Error Handling
 
@@ -337,7 +336,7 @@ end
 - `Truedocs::TimeoutError` - Request timeout
 - `Truedocs::NetworkError` - Network connectivity issues
 - `Truedocs::ServerError` - Server errors (5xx)
-- `Truedocs::UnsupportedFileTypeError` - Unsupported file type
+- `Truedocs::UnsupportedFileTypeError` - Unsupported file input type (not file format)
 - `Truedocs::FileTooLargeError` - File exceeds size limit
 
 ## Response Objects
